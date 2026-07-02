@@ -44,3 +44,8 @@ export function seedInitialCasesIfEmpty(): void {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(SAMPLE_CASES))
   }
 }
+
+export function resetToSeedCases(): void {
+  if (typeof window === 'undefined') return
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(SAMPLE_CASES))
+}

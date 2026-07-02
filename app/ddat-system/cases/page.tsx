@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { DDATCase, DDATSignal } from '@/lib/ddat/schema'
-import { getCases } from '@/lib/ddat/storage'
+import { getCases, seedInitialCasesIfEmpty } from '@/lib/ddat/storage'
 import { DDATNav } from '@/components/ddat/DDATNav'
 import { SignalBadge } from '@/components/ddat/SignalBadge'
 
@@ -14,6 +14,7 @@ export default function CaseLedger() {
   const [evidenceFilter, setEvidenceFilter] = useState('')
 
   useEffect(() => {
+    seedInitialCasesIfEmpty()
     setCases(getCases())
   }, [])
 

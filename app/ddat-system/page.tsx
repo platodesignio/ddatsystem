@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { DDATCase, RedSignalCode, RedSignalStatus } from '@/lib/ddat/schema'
-import { getCases, seedInitialCasesIfEmpty } from '@/lib/ddat/storage'
+import { getCases, seedInitialCasesIfEmpty, resetToSeedCases } from '@/lib/ddat/storage'
 import { RED_SIGNALS } from '@/lib/ddat/rules'
 import { DDATNav } from '@/components/ddat/DDATNav'
 import { SignalBadge } from '@/components/ddat/SignalBadge'
@@ -17,6 +17,13 @@ export default function DDATDashboard() {
     seedInitialCasesIfEmpty()
     setCases(getCases())
   }, [])
+
+  function handleReset() {
+    if (confirm('Reset to the three seed cases? All other cases will be removed.')) {
+      resetToSeedCases()
+      setCases(getCases())
+    }
+  }
 
   const redCount = cases.filter((c) => c.auditResult.ddatSignal === 'Red').length
   const yellowCount = cases.filter((c) => c.auditResult.ddatSignal === 'Yellow').length
@@ -38,11 +45,19 @@ export default function DDATDashboard() {
 
       <main className="max-w-7xl mx-auto px-6 py-8">
         {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-white">DDAT Evidence System v0.1</h1>
-          <p className="text-gray-400 mt-1">
-            Decision Direction Audit Theory — Internal Evidence Module
-          </p>
+        <div className="mb-6 flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-white">DDAT Evidence System v0.1</h1>
+            <p className="text-gray-400 mt-1">
+              Decision Direction Audit Theory — Internal Evidence Module
+            </p>
+          </div>
+          <button
+            onClick={handleReset}
+            className="shrink-0 px-3 py-2 text-xs border border-white/20 text-gray-400 rounded hover:border-white/40 hover:text-white transition-colors"
+          >
+            Reset Demo Cases
+          </button>
         </div>
 
         {/* PII Warning */}

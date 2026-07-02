@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { DDATCase, RedSignalCode } from '@/lib/ddat/schema'
-import { getCases } from '@/lib/ddat/storage'
+import { getCases, seedInitialCasesIfEmpty } from '@/lib/ddat/storage'
 import { RED_SIGNALS } from '@/lib/ddat/rules'
 import { DDATNav } from '@/components/ddat/DDATNav'
 import { ComparisonTable } from '@/components/ddat/ComparisonTable'
@@ -14,6 +14,7 @@ export default function ComparePage() {
   const [selected, setSelected] = useState<Set<string>>(new Set())
 
   useEffect(() => {
+    seedInitialCasesIfEmpty()
     const all = getCases()
     setCases(all)
     // Default: first 3 (seed cases)

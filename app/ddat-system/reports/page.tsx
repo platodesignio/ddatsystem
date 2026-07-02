@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { DDATCase, RedSignalCode } from '@/lib/ddat/schema'
-import { getCases } from '@/lib/ddat/storage'
+import { getCases, seedInitialCasesIfEmpty } from '@/lib/ddat/storage'
 import { generateMarkdownReport, generatePublicSummary, exportCaseJson, exportCasesCsv } from '@/lib/ddat/report'
 import { RED_SIGNALS, REDESIGN_MAP } from '@/lib/ddat/rules'
 import { DDATNav } from '@/components/ddat/DDATNav'
@@ -83,6 +83,7 @@ export default function ReportsPage() {
   const [evidenceNote, setEvidenceNote] = useState('')
 
   useEffect(() => {
+    seedInitialCasesIfEmpty()
     const all = getCases()
     setCases(all)
     const defaultSelected = new Set(all.slice(0, 3).map((c) => c.id))
